@@ -5,6 +5,7 @@ const router = express.Router();
 import { body } from 'express-validator'
 
 import captainController from '../controllers/captain.controller.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
 
 router.post('/register', [
     body('fullname.firstname').isLength({ min: 3 }).withMessage("First name should be at least 3 characters long"),
@@ -27,4 +28,8 @@ router.post('/login', [
 )
 
 export default router
+
+
+router.get('/profile', authMiddleware.authCaptain, captainController.getCaptainProfile);
+router.get('/logout', authMiddleware.authCaptain, captainController.logoutCaptain);
 

@@ -392,20 +392,19 @@ This endpoint is used to log out a user by blacklisting their current JWT token.
 
 
 
+# API Documentation: Captain Endpoints
 
-# Captain Register Endpoint
+## 1. Captain Register
+### Endpoint
+`POST /captain/register`
 
-## Endpoint: `/captain/register`
-
-### Method: `POST`
-
+### Description
 This endpoint is used to register a new captain in the application. It takes captain details such as name, email, password, and vehicle information, validates the input, hashes the password, and stores the captain's data in the database. A JWT token is generated upon successful registration.
 
----
+### Request Headers
+- `Content-Type`: `application/json`
 
-### Request Body:
-The request body should be in JSON format and must include the following fields:
-
+### Request Body
 ```json
 {
   "fullname": {
@@ -436,16 +435,10 @@ The request body should be in JSON format and must include the following fields:
 | `vehicle.capacity`     | Number  | Yes      | The capacity of the vehicle (minimum 1).                       |
 | `vehicle.vehicleType`  | String  | Yes      | The type of vehicle (`car`, `motorcycle`, or `auto`).          |
 
----
-
-### Response:
-
-#### Success Response:
-
-- **Status Code:** `201 Created`
-
-- **Body:**
-
+### Responses
+#### Success
+- **Status Code**: `201 Created`
+- **Response Body**:
 ```json
 {
   "token": "<jwt_token>",
@@ -470,12 +463,10 @@ The request body should be in JSON format and must include the following fields:
 }
 ```
 
-#### Error Responses:
-
-1. **Validation Error:**
-   - **Status Code:** `400 Bad Request`
-   - **Body:**
-
+#### Error
+1. **Validation Error**:
+   - **Status Code**: `400 Bad Request`
+   - **Response Body**:
    ```json
    {
      "errors": [
@@ -489,20 +480,18 @@ The request body should be in JSON format and must include the following fields:
    }
    ```
 
-2. **Email Already Exists:**
-   - **Status Code:** `409 Conflict`
-   - **Body:**
-
+2. **Email Already Exists**:
+   - **Status Code**: `409 Conflict`
+   - **Response Body**:
    ```json
    {
      "message": "Email already in use"
    }
    ```
 
-3. **Internal Server Error:**
-   - **Status Code:** `500 Internal Server Error`
-   - **Body:**
-
+3. **Internal Server Error**:
+   - **Status Code**: `500 Internal Server Error`
+   - **Response Body**:
    ```json
    {
      "message": "Internal Server Error while registering captain"
@@ -511,10 +500,149 @@ The request body should be in JSON format and must include the following fields:
 
 ---
 
-### Notes:
-- Ensure that `JWT_SECRET` is set in your environment variables for token generation.
-- The `password` field is hashed before being stored in the database.
-- If the `email` is already in use, the `createCaptain` service will throw an error due to the `unique` constraint on the `email` field.
+## 2. Captain Login
+### Endpoint
+`POST /captain/login`
+
+### Description
+This endpoint allows a captain to log in by providing their email and password.
+
+### Request Headers
+- `Content-Type`: `application/json`
+
+### Request Body
+```json
+{
+  "email": "captain@example.com",
+  "password": "securepassword"
+}
+```
+
+### Responses
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+```json
+{
+  "token": "<JWT_TOKEN>",
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "MH12AB1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  },
+  "message": "Captain logged in successfully"
+}
+```
+
+#### Error
+1. **Invalid Credentials**:
+   - **Status Code**: `401 Unauthorized`
+   - **Response Body**:
+   ```json
+   {
+     "message": "Invalid email or password"
+   }
+   ```
+
+2. **Validation Error**:
+   - **Status Code**: `400 Bad Request`
+   - **Response Body**:
+   ```json
+   {
+     "errors": [
+       {
+         "msg": "Invalid email",
+         "param": "email",
+         "location": "body"
+       }
+     ],
+     "success": false
+   }
+   ```
+
+---
+
+## 3. Get Captain Profile
+### Endpoint
+`GET /captain/profile`
+
+### Description
+Retrieve the logged-in captain's profile information.
+
+### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+### Responses
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+```json
+{
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "MH12AB1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+#### Error
+- **Status Code**: `401 Unauthorized`
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+---
+
+## 4. Logout Captain
+### Endpoint
+`GET /captain/logout`
+
+### Description
+Logs out the captain by clearing the authentication token and blacklisting it.
+
+### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+- **OR**
+- Cookie: `token=<JWT_TOKEN>`
+
+### Responses
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+```json
+{
+  "message": "Captain logged out successfully"
+}
+```
+
+#### Error
+- **Status Code**: `500 Internal Server Error`
+  ```json
+  {
+    "message": "An error occurred while logging out"
+  }
+  ```
+
+
 
 
 
