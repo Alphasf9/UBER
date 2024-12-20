@@ -72,6 +72,9 @@ const loginUser = async (req, res, next) => {
     }
 
     const token = user.generateAuthToken();
+    res.cookie('token', token)
+
+    console.log(token)
 
     return res.status(200).json({
         token,
@@ -84,7 +87,7 @@ const loginUser = async (req, res, next) => {
 
 const getUserProfile = async (req, res, next) => {
 
-    res.status(200).json(req.user);
+    res.status(200).json(req.user)
 
 }
 
@@ -99,4 +102,4 @@ const logoutUser = async (req, res, next) => {
 }
 
 
-export default { registerUser, loginUser, getUserProfile, logoutUser }
+export default { registerUser, loginUser, logoutUser, getUserProfile }

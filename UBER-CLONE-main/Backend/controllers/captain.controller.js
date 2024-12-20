@@ -95,9 +95,8 @@ const loginCaptain = async (req, res, next) => {
         message: "Captain logged in successfully"
     });
 
-
-
-
 }
+
+
 
 export default { registerCaptain, loginCaptain }
