@@ -391,3 +391,130 @@ This endpoint is used to log out a user by blacklisting their current JWT token.
 - If using cookies, make sure they are sent securely over HTTPS in production.
 
 
+
+
+# Captain Register Endpoint
+
+## Endpoint: `/captain/register`
+
+### Method: `POST`
+
+This endpoint is used to register a new captain in the application. It takes captain details such as name, email, password, and vehicle information, validates the input, hashes the password, and stores the captain's data in the database. A JWT token is generated upon successful registration.
+
+---
+
+### Request Body:
+The request body should be in JSON format and must include the following fields:
+
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "example@example.com",
+  "password": "securepassword",
+  "vehicle": {
+    "color": "Red",
+    "plate": "MH12AB1234",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+| Field                  | Type    | Required | Description                                                   |
+|------------------------|---------|----------|---------------------------------------------------------------|
+| `fullname`             | Object  | Yes      | An object containing `firstname` and `lastname`.              |
+| `fullname.firstname`   | String  | Yes      | The first name of the captain (minimum 3 characters).          |
+| `fullname.lastname`    | String  | No       | The last name of the captain (minimum 3 characters).           |
+| `email`                | String  | Yes      | The captain's email address (must be a valid email).           |
+| `password`             | String  | Yes      | The captain's password (minimum 6 characters).                 |
+| `vehicle`              | Object  | Yes      | An object containing vehicle details.                          |
+| `vehicle.color`        | String  | Yes      | The color of the vehicle (minimum 3 characters).               |
+| `vehicle.plate`        | String  | Yes      | The vehicle's plate number (in Indian format, e.g., MH12AB1234).|
+| `vehicle.capacity`     | Number  | Yes      | The capacity of the vehicle (minimum 1).                       |
+| `vehicle.vehicleType`  | String  | Yes      | The type of vehicle (`car`, `motorcycle`, or `auto`).          |
+
+---
+
+### Response:
+
+#### Success Response:
+
+- **Status Code:** `201 Created`
+
+- **Body:**
+
+```json
+{
+  "token": "<jwt_token>",
+  "captain": {
+    "_id": "<captain_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "example@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "MH12AB1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "createdAt": "<timestamp>",
+    "updatedAt": "<timestamp>"
+  },
+  "message": "Captain Registered successfully"
+}
+```
+
+#### Error Responses:
+
+1. **Validation Error:**
+   - **Status Code:** `400 Bad Request`
+   - **Body:**
+
+   ```json
+   {
+     "errors": [
+       {
+         "msg": "Invalid email",
+         "param": "email",
+         "location": "body"
+       }
+     ],
+     "success": false
+   }
+   ```
+
+2. **Email Already Exists:**
+   - **Status Code:** `409 Conflict`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Email already in use"
+   }
+   ```
+
+3. **Internal Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Internal Server Error while registering captain"
+   }
+   ```
+
+---
+
+### Notes:
+- Ensure that `JWT_SECRET` is set in your environment variables for token generation.
+- The `password` field is hashed before being stored in the database.
+- If the `email` is already in use, the `createCaptain` service will throw an error due to the `unique` constraint on the `email` field.
+
+
+

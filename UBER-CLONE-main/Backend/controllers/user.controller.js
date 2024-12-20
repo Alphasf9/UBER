@@ -13,6 +13,14 @@ const registerUser = async (req, res, next) => {
 
     const { fullname, email, password } = req.body;
 
+    const isUserAlreadyExist = await userModel.findOne({ email });
+
+    if (isUserAlreadyExist) {
+        return res.status(400).json({
+            message: "User already exist with this email"
+        });
+    }
+
 
     const hashPassword = await userModel.hashPassword(password);
 

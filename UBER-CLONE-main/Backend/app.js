@@ -10,6 +10,7 @@ const app = express();
 import express from 'express';
 
 import userRoutes from './routes/user.routes.js'
+import captainRoutes from './routes/captain.routes.js'
 connectToDb();
 
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/users", userRoutes)
+app.use("/captain", captainRoutes)
 
 
 export default app
