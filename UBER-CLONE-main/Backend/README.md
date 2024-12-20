@@ -204,3 +204,190 @@ The request body should be in JSON format and must include the following fields:
 - The password is verified using bcrypt's `compare` method.
 - The response includes a JWT token for authenticating further requests.
 
+
+
+
+# Get User Profile Endpoint
+
+## Endpoint: `/users/profile`
+
+### Method: `GET`
+
+This endpoint retrieves the profile details of the authenticated user. The user must be logged in and provide a valid JWT token for authentication.
+
+---
+
+### Headers:
+The request must include the following headers:
+
+| Header             | Type   | Required | Description                          |
+|--------------------|--------|----------|--------------------------------------|
+| `Authorization`    | String | Yes      | Bearer token for user authentication |
+
+---
+
+### Response:
+
+#### Success Response:
+
+- **Status Code:** `200 OK`
+
+- **Body:**
+
+```json
+{
+  "user": {
+    "_id": "<user_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "example@example.com",
+    "createdAt": "<timestamp>",
+    "updatedAt": "<timestamp>"
+  }
+}
+```
+
+#### Error Responses:
+
+1. **Unauthorized (No Token Provided):**
+   - **Status Code:** `401 Unauthorized`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Unauthorized. Please login again"
+   }
+   ```
+
+2. **Invalid or Expired Token:**
+   - **Status Code:** `401 Unauthorized`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Invalid token"
+   }
+   ```
+
+3. **Internal Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Internal Server Error"
+   }
+   ```
+
+---
+
+### Notes:
+- Ensure that `JWT_SECRET` is set in your environment variables for token verification.
+- The `Authorization` header must include the prefix `Bearer ` followed by the token.
+- This endpoint returns the user's profile based on the token's payload.
+
+---
+
+### Example Request:
+
+#### cURL:
+```bash
+curl -X GET \
+     -H "Authorization: Bearer <jwt_token>" \
+     http://localhost:5000/users/profile
+```
+
+---
+
+### Example Usage:
+
+#### JavaScript Fetch:
+```javascript
+fetch("http://localhost:5000/users/profile", {
+    method: "GET",
+    headers: {
+        "Authorization": `Bearer ${token}`
+    }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error("Error:", error));
+
+
+
+
+# Logout User Endpoint
+
+## Endpoint: `/users/logout`
+
+### Method: `GET`
+
+This endpoint is used to log out a user by blacklisting their current JWT token. Once logged out, the user cannot perform any actions that require authentication until they log in again.
+
+---
+
+### Request:
+- The request must include a valid JWT token in the `Authorization` header or in cookies.
+
+#### Headers:
+| Header             | Value                | Required | Description                          |
+|--------------------|----------------------|----------|--------------------------------------|
+| `Authorization`    | `Bearer <jwt_token>` | Yes      | The user's JWT token for validation. |
+
+---
+
+### Response:
+
+#### Success Response:
+- **Status Code:** `200 OK`
+
+- **Body:**
+
+```json
+{
+  "message": "User logged out successfully"
+}
+```
+
+#### Error Responses:
+
+1. **Unauthorized (No Token):**
+   - **Status Code:** `401 Unauthorized`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Unauthorized"
+   }
+   ```
+
+2. **Invalid Token:**
+   - **Status Code:** `401 Unauthorized`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Invalid token"
+   }
+   ```
+
+3. **Internal Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Body:**
+
+   ```json
+   {
+     "message": "Internal Server Error"
+   }
+   ```
+
+---
+
+### Notes:
+- The token is stored in a blacklist collection in the database and will remain invalid until it expires.
+- Ensure that the `BlacklistToken` schema is properly configured to handle token expiration.
+- If using cookies, make sure they are sent securely over HTTPS in production.
+
+
