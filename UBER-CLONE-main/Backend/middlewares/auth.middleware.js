@@ -11,7 +11,6 @@ const authUser = async (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
-    console.log(token);
 
 
     const isBlacklisted = await blacklistTokenModel.findOne({ token: token });
@@ -52,6 +51,7 @@ const authCaptain = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const captain = await captainModel.findById(decoded._id);
+
 
         req.captain = captain;
 
