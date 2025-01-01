@@ -14,7 +14,7 @@ router.post('/register', [
     body('vehicle.color').isLength({ min: 3 }).withMessage("Vehicle color must be at least 3 characters long"),
     body('vehicle.plate').isLength({ min: 3 }).withMessage("Vehicle plate must be at least 3 characters long"),
     body('vehicle.capacity').isLength({ min: 1 }).withMessage("Vehicle capacity must be at least 1"),
-    body('vehicle.vehicleType').isLength({ min: 3 }).withMessage("Vehicle type must be at least 3 characters long"),
+    body('vehicle.vehicleType').isLength({ min: 2 }).withMessage("Vehicle type must be at least 3 characters long"),
 ],
     captainController.registerCaptain
 )
