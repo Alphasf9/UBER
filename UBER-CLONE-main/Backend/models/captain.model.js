@@ -53,27 +53,28 @@ const captainSchema = new mongoose.Schema({
         capacity: {
             type: Number,
             required: true,
-            min: [1, 'Vehicle capacity must be at least 1'],
+            min: [1, 'Vehicle capacity must be at least 1']
         },
         vehicleType: {
             type: String,
             enum: ['car', 'motorcycle', 'auto'],
             required: true
+        }
+    },
+
+    location: { 
+        ltd: {
+            type: Number
         },
-        location: {
-            lat: {
-                type: Number
-            },
-            lng: {
-                type: Number
-            }
+        lng: {
+            type: Number
         }
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
 captainSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    return token
+    return token;
 };
 
 captainSchema.methods.comparePassword = async function (password) {
@@ -84,8 +85,6 @@ captainSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 };
 
-
 const captainModel = mongoose.model('captain', captainSchema);
 
 export default captainModel;
-

@@ -27,9 +27,9 @@ router.post('/login', [
     captainController.loginCaptain
 )
 
-export default router
-
-
 router.get('/profile', authMiddleware.authCaptain, captainController.getCaptainProfile);
 router.get('/logout', authMiddleware.authCaptain, captainController.logoutCaptain);
+
+export default router
+
 

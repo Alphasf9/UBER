@@ -1,11 +1,33 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const FinishRide = (props) => {
+
+    const navigate = useNavigate();
+
+    async function endRide() {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
+
+            rideId: props.ride._id
+
+
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        if (response.status === 200) {
+            navigate('/captain-home')
+        }
+
+    }
+
+
     return (
         <div className="h-[95vh] w-full bg-white rounded-t-3xl shadow-lg flex flex-col items-center p-6 relative overflow-hidden">
             <h5
-                onClick={()=>{
+                onClick={() => {
                     props.setFinishRidePanel(false)
                 }}
                 className=" text-center w=[93%] absolute top-0"
@@ -27,7 +49,7 @@ const FinishRide = (props) => {
                 <div className="ml-4">
                     <h2 className="text-lg font-semibold text-gray-800 mb-1 relative">
                         <span className="absolute inset-x-0 bottom-0 border-b-2 border-green-600"></span>
-                        Mohd Haseeb Ali
+                        {props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}
                     </h2>
                     <h5 className="text-lg text-blue-600 font-medium mt-2 relative">
                         <span className="absolute inset-x-0 bottom-0 border-b-2 border-blue-600"></span>
@@ -45,7 +67,7 @@ const FinishRide = (props) => {
                             <i className="text-2xl text-green-600 ri-map-pin-2-line mr-4"></i>
                             <div className="text-left">
                                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                                <p className="text-sm text-gray-600">{props.ride?.pickup}</p>
                             </div>
                         </div>
 
@@ -54,7 +76,7 @@ const FinishRide = (props) => {
                             <i className="text-2xl text-blue-600 ri-map-pin-5-fill mr-4"></i>
                             <div className="text-left">
                                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                                <p className="text-sm text-gray-600">{props.ride?.destination}</p>
                             </div>
                         </div>
 
@@ -73,7 +95,7 @@ const FinishRide = (props) => {
                             <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full">
                                 <i className="text-2xl text-yellow-600 ri-money-rupee-circle-line mr-4"></i>
                                 <div className="text-left">
-                                    <h3 className="font-semibold text-base text-gray-800">₹ 193.20</h3>
+                                    <h3 className="font-semibold text-base text-gray-800">₹ {props.ride?.fare}</h3>
                                     <p className="text-sm text-gray-600">Cash</p>
                                 </div>
                             </div>
@@ -87,12 +109,12 @@ const FinishRide = (props) => {
                 {/* OTP Input Field */}
 
                 {/* Confirm Button (Link styled as button) */}
-                <Link
-                    to="/captain-home"
+                <button
+                    onClick={endRide}
                     className="w-full py-3 bg-green-500 text-white rounded-lg font-semibold shadow-lg hover:bg-green-600 hover:scale-105 hover:shadow-xl transition-all duration-300 ease-in-out text-center block mb-4"
                 >
                     Finish this Ride
-                </Link>
+                </button>
             </div>
         </div>
     )

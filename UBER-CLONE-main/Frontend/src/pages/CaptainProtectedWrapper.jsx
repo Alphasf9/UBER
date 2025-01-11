@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { CaptainDataContext } from '../context/CaptainContext';
+import { CaptainDataContext } from '../context/CaptainContext'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import axios from 'axios'
 
-const CaptainProtectedWrapper = ({
+const CaptainProtectWrapper = ({
     children
 }) => {
-    const token = localStorage.getItem('token');
-    const navigate = useNavigate();
 
-    const { captain, setCaptain } = useContext(CaptainDataContext);
-    const [isLoading, setIsLoading] = useState(true);
+    const token = localStorage.getItem('token')
+    const navigate = useNavigate()
+    const { captain, setCaptain } = useContext(CaptainDataContext)
+    const [ isLoading, setIsLoading ] = useState(true)
+
 
 
 
@@ -18,22 +19,25 @@ const CaptainProtectedWrapper = ({
         if (!token) {
             navigate('/captain-login')
         }
-    }, [token])
 
-    axios.get(`${import.meta.env.VITE_API_URL}/captain/profile`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }).then(response => {
-        if (response.status === 200) {
-            setCaptain(response.data.captain);
-            setIsLoading(false);
-        }
-    }).catch(error => {
-        console.error('Error fetching captain profile:', error);
-        localStorage.removeItem('token');
-        navigate('/captain-login');
-    });
+        axios.get(`${import.meta.env.VITE_BASE_URL}/captain/profile`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                setCaptain(response.data.captain)
+                setIsLoading(false)
+            }
+        })
+            .catch(err => {
+
+                localStorage.removeItem('token')
+                navigate('/captain-login')
+            })
+    }, [ token ])
+
+    
 
     if (isLoading) {
         return (
@@ -43,18 +47,11 @@ const CaptainProtectedWrapper = ({
 
 
 
-    if (!token) {
-        navigate('/captain-login');
-    }
     return (
         <>
             {children}
         </>
     )
-
-
-
-
 }
 
-export default CaptainProtectedWrapper
+export default CaptainProtectWrapper

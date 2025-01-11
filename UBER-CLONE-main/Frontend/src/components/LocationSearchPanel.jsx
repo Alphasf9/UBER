@@ -1,58 +1,31 @@
-import PropTypes from 'prop-types';
 
-const LocationSearchPanel = (props) => {
+const LocationSearchPanel = ({ suggestions, setvehcilePanel, setPickup, setDestination, activeField }) => {
+    const handleSuggestionClick = (suggestion) => {
+        if (activeField === 'pickup') {
+            setPickup(suggestion.description); // Set pickup as description
+        } else if (activeField === 'destination') {
+            setDestination(suggestion.description); // Set destination as description
+        }
+    };
 
+    return (
+        <div>
+            {/* Display fetched suggestions */}
+            {suggestions.map((elem, idx) => (
+                <div
+                    key={idx}
+                    onClick={() => handleSuggestionClick(elem)}
+                    className="flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start"
+                >
+                    <h2 className="bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full">
+                        <i className="ri-map-pin-fill"></i>
+                    </h2>
+                    {/* Use elem.description for display */}
+                    <h4 className="font-medium">{elem.description}</h4>
+                </div>
+            ))}
+        </div>
+    );
+};
 
-
-  const locations = [
-    '15 Suresh Nagar New Agra Colony',
-    ' CSJM University Near Kalyanpur, Kanpur',
-    'Z sqaure Mall Kanpur'
-  ];
-  return (
-    <div>
-      {
-        locations.map(function (elem,idx) {
-          return <div key={idx} onClick={() => {
-            
-            props.setvehcilePanel(true)
-            props.setPanelOpen(false)
-            props.setvehcilePanel(true)
-          }} className='flex gap-4 border-2 rounded-xl p-3 items-center my-2 justify-start border-gray-50 active:border-black'>
-            <h2 className='bg-[#eee] h-7 w-[7%] flex items-center justify-center rounded-full'>
-              <i className="ri-map-pin-2-line"></i>
-            </h2>
-            <h4 className='font-medium'>{elem}</h4>
-          </div>
-        })
-      }
-
-      {/* <div className='flex gap-4 border-2 rounded-xl p-3 items-center my-2 justify-start border-gray-50 active:border-black'>
-        <h2 className='bg-[#eee] h-7 w-[7%] flex items-center justify-center rounded-full'>
-          <i className="ri-map-pin-2-line"></i>
-        </h2>
-        <h4 className='font-medium'> 15 Suresh Nagar New Agra Colony</h4>
-      </div>
-
-
-      <div className='flex gap-4 border-2 rounded-xl p-3 items-center my-2 justify-start border-gray-50 active:border-black'>
-        <h2 className='bg-[#eee] h-7 w-[7%] flex items-center justify-center rounded-full'>
-          <i className="ri-map-pin-2-line"></i>
-        </h2>
-        <h4 className='font-medium'> 15 Suresh Nagar New Agra Colony</h4>
-      </div>
-
-
-      <div className='flex gap-4 border-2 rounded-xl p-3 items-center my-2 justify-start border-gray-50 active:border-black'>
-        <h2 className='bg-[#eee] h-7 w-[7%] flex items-center justify-center rounded-full'>
-          <i className="ri-map-pin-2-line"></i>
-        </h2>
-        <h4 className='font-medium'> 15 Suresh Nagar New Agra Colony</h4>
-      </div> */}
-
-
-    </div>
-  )
-}
-
-export default LocationSearchPanel
+export default LocationSearchPanel;

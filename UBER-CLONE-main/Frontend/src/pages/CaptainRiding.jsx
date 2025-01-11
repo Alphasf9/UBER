@@ -1,12 +1,17 @@
 // import React from 'react'
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useRef, useState } from "react";
 import FinishRide from "../components/FinishRide";
+import LiveTracking from "../components/LiveTracking";
 
 
 const CaptainRiding = () => {
+
+    const location = useLocation();
+    const rideData = location.state?.ride
+    console.log("this is my rideData", rideData);
 
     const [finishRidePanel, setFinishRidePanel] = useState(false)
 
@@ -60,20 +65,16 @@ const CaptainRiding = () => {
 
             {/* Map Background */}
             <div className="absolute inset-0 w-full h-full">
-                <img
-                    className="w-full h-full object-cover brightness-75"
-                    src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-                    alt="Background"
-                />
+                <LiveTracking />
             </div>
 
             {/* Ride Details Container */}
-            <div 
-            onClick={()=>{
-                setFinishRidePanel(true)
-            }}
+            <div
+                onClick={() => {
+                    setFinishRidePanel(true)
+                }}
 
-            className="absolute p-8 bottom-0 bg-yellow-400 w-full z-30 flex items-center justify-between ">
+                className="absolute p-8 bottom-0 bg-yellow-400 w-full z-30 flex items-center justify-between ">
 
                 <h5
                     className="absolute text-center top-2 right-4 cursor-pointer text-gray-500"
@@ -89,8 +90,10 @@ const CaptainRiding = () => {
             </div>
 
 
-            <div ref={finishRidePanelRef}  className="fixed bottom-0 w-full px-4 py-4 translate-y-full bg-white shadow-xl z-40">
-                <FinishRide   setFinishRidePanel={setFinishRidePanel} />
+            <div ref={finishRidePanelRef} className="fixed bottom-0 w-full px-4 py-4 translate-y-full bg-white shadow-xl z-40">
+                <FinishRide
+                    ride={rideData}
+                    setFinishRidePanel={setFinishRidePanel} />
             </div>
 
         </div>

@@ -16,9 +16,10 @@ const WaitingForDriver = (props) => {
         <img className="h-20 w-auto object-contain rounded-lg shadow-md" src="/images/imagescaruber.png" alt="Ride confirmation" />
 
         <div className='text-right'>
-          <h2 className='text-lg font-medium'>Manoj Kumar </h2>
-          <h4 className='text-xl font-semibold -mt-1 -mb-1'>UP80 9071</h4>
+          <h2 className='text-lg font-medium'>{props.ride?.captain.fullname?.firstname + " " + props.ride?.captain.fullname.lastname} </h2>
+          <h4 className='text-xl font-semibold -mt-1 -mb-1'>{props.ride?.captain.vehicle.plate}</h4>
           <p className='text-sm text-gray-600'>White Suzuki S-Presso LXI</p>
+          <h1 className='text-sm text-gray-600 font-semibold'>{props.ride?.otp}</h1>
         </div>
       </div>
 
@@ -34,7 +35,7 @@ const WaitingForDriver = (props) => {
               <i className="text-3xl text-green-600 ri-map-pin-2-line mb-2"></i>
               <div className="text-center">
                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                <p className="text-sm text-gray-600">{props.ride?.pickup}</p>
               </div>
             </div>
 
@@ -43,7 +44,7 @@ const WaitingForDriver = (props) => {
               <i className="text-3xl text-blue-600 ri-map-pin-5-fill mb-2"></i>
               <div className="text-center">
                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                <p className="text-sm text-gray-600">{props.ride?.destination}</p>
               </div>
             </div>
 
@@ -51,7 +52,7 @@ const WaitingForDriver = (props) => {
             <div className="flex flex-col items-center bg-white p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-[90%]">
               <i className="text-3xl text-yellow-600 ri-money-rupee-circle-line mb-2"></i>
               <div className="text-center">
-                <h3 className="font-semibold text-base text-gray-800">₹ 193.20</h3>
+                <h3 className="font-semibold text-base text-gray-800">₹ {props.ride?.fare}</h3>
                 <p className="text-sm text-gray-600">Cash</p>
               </div>
             </div>

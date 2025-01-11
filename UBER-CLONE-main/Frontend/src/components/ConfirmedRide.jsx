@@ -16,7 +16,7 @@ const ConfirmedRide = (props) => {
       <div className="gap-4 flex justify-center flex-col items-center">
 
         {/* Image Section */}
-        <img className="h-40 w-auto object-contain rounded-lg shadow-md" src="/images/ubersedancar.png" alt="Ride confirmation" />
+        <img className="h-40 w-auto object-contain rounded-lg shadow-md" src="/images/imagespremiumuber.png" alt="Ride confirmation" />
 
         <div className="w-full mt-2">
           <div className="flex flex-col items-center gap-4">
@@ -25,7 +25,7 @@ const ConfirmedRide = (props) => {
               <i className="text-3xl text-green-600 ri-map-pin-2-line mb-2"></i>
               <div className="text-center">
                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                <p className="text-sm text-gray-600">{props.pickup}</p>
               </div>
             </div>
 
@@ -34,7 +34,7 @@ const ConfirmedRide = (props) => {
               <i className="text-3xl text-blue-600 ri-map-pin-5-fill mb-2"></i>
               <div className="text-center">
                 <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                <p className="text-sm text-gray-600">{props.destination}</p>
               </div>
             </div>
 
@@ -42,7 +42,7 @@ const ConfirmedRide = (props) => {
             <div className="flex flex-col items-center bg-white p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-[90%]">
               <i className="text-3xl text-yellow-600 ri-money-rupee-circle-line mb-2"></i>
               <div className="text-center">
-                <h3 className="font-semibold text-base text-gray-800">₹ 193.20</h3>
+                <h3 className="font-semibold text-base text-gray-800">₹ {props.fare[props.vehicleType]}</h3>
                 <p className="text-sm text-gray-600">Cash</p>
               </div>
             </div>
@@ -52,6 +52,7 @@ const ConfirmedRide = (props) => {
         <button onClick={() => {
           props.setVehicleFound(true)
           props.setconfirmRidePanel(false)
+          props.createRide()
         }}
           className="text-center w-full bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md hover:bg-green-500 transition duration-200 ease-in-out">
           Confirm

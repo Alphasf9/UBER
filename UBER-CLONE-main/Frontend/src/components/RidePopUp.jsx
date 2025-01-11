@@ -27,7 +27,7 @@ const RidePopUp = (props) => {
                 <div className="ml-4">
                     <h2 className="text-lg font-semibold text-gray-800 mb-1 relative">
                         <span className="absolute inset-x-0 bottom-0 border-b-2 border-green-600"></span>
-                        Mohd Haseeb Ali
+                        {props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}
                     </h2>
                     <h5 className="text-lg text-blue-600 font-medium mt-2 relative">
                         <span className="absolute inset-x-0 bottom-0 border-b-2 border-blue-600"></span>
@@ -45,8 +45,8 @@ const RidePopUp = (props) => {
                         <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full">
                             <i className="text-2xl text-green-600 ri-map-pin-2-line mr-4"></i>
                             <div className="text-left">
-                                <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                                {/* <h3 className="font-semibold text-base text-gray-800">562/11-A</h3> */}
+                                <p className="text-sm text-gray-600">{props.ride?.pickup}</p>
                             </div>
                         </div>
 
@@ -54,8 +54,8 @@ const RidePopUp = (props) => {
                         <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full">
                             <i className="text-2xl text-blue-600 ri-map-pin-5-fill mr-4"></i>
                             <div className="text-left">
-                                <h3 className="font-semibold text-base text-gray-800">562/11-A</h3>
-                                <p className="text-sm text-gray-600">Agra Fort Railway Station, Agra</p>
+                                {/* <h3 className="font-semibold text-base text-gray-800">562/11-A</h3> */}
+                                <p className="text-sm text-gray-600">{props.ride?.destination}</p>
                             </div>
                         </div>
 
@@ -74,7 +74,7 @@ const RidePopUp = (props) => {
                             <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full">
                                 <i className="text-2xl text-yellow-600 ri-money-rupee-circle-line mr-4"></i>
                                 <div className="text-left">
-                                    <h3 className="font-semibold text-base text-gray-800">₹ 193.20</h3>
+                                    <h3 className="font-semibold text-base text-gray-800">{props.ride?.fare}</h3>
                                     <p className="text-sm text-gray-600">Cash</p>
                                 </div>
                             </div>
@@ -88,6 +88,7 @@ const RidePopUp = (props) => {
                 <button
                     onClick={() => {
                         props.setConfirmRidePopUpPanel(true)
+                        props.confirmRide()
                     }}
                     className="w-full py-3 bg-green-600 text-white rounded-lg font-semibold shadow-md hover:bg-green-500 hover:scale-105 hover:shadow-xl transition-all duration-300 ease-in-out transform"
                 >

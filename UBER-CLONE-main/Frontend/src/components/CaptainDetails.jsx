@@ -1,6 +1,11 @@
-import React from 'react';
+import { useContext } from 'react';
+import { CaptainDataContext } from '../context/CaptainContext';
+const CaptainDetails = () => {
 
-const CaptainDetails = (props) => {
+
+    const {captain} = useContext(CaptainDataContext);
+
+
     return (
         <div>
             <div className="absolute bottom-0 w-full bg-white rounded-t-3xl shadow-xl p-5 z-20 max-h-[50vh] overflow-y-auto">
@@ -13,7 +18,11 @@ const CaptainDetails = (props) => {
                         alt="Driver"
                     />
                     <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-800">Manoj Kumar</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 capitalize">
+
+
+                        {captain?.fullname?.firstname +" "+ captain.fullname?.lastname}
+                        </h3>
                         <p className="text-sm text-gray-600">White Suzuki S-Presso LXI</p>
                         <p className="text-sm text-gray-500">UP80 9071</p>
                     </div>

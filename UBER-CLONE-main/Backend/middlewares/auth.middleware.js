@@ -1,7 +1,6 @@
 import userModel from "../models/user.model.js";
 import captainModel from "../models/captain.model.js";
 import jwt from 'jsonwebtoken'
-import bcrypt from "bcrypt"
 import blacklistTokenModel from "../models/blacklistToken.model.js";
 
 

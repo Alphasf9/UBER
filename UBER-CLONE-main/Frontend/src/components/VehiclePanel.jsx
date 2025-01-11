@@ -1,6 +1,6 @@
 import React from 'react'
 
-const VehiclePanel = (props) => {
+const  VehiclePanel = (props) => {
     return (
         <div>
             <h5 onClick={() => {
@@ -17,6 +17,7 @@ const VehiclePanel = (props) => {
 
             <div onClick={() => {
                 props.setconfirmRidePanel(true);
+                props.setVehicleType('car')
             }} className="flex w-full items-center mb-2  justify-between p-3  shadow-md bg-gray-100  border-2 rounded-md active:border-black">
                 {/* Ride Info */}
 
@@ -33,7 +34,7 @@ const VehiclePanel = (props) => {
 
                 {/* Price */}
                 <div className="text-right">
-                    <h2 className="text-2xl font-semibold text-black">₹193.4</h2>
+                    <h2 className="text-2xl font-semibold text-black">₹{props.fare.car}</h2>
                 </div>
             </div>
 
@@ -43,6 +44,7 @@ const VehiclePanel = (props) => {
             <div
                 onClick={() => {
                     props.setconfirmRidePanel(true);
+                    props.setVehicleType('motorcycle')
                 }}
                 className="flex w-full items-center mb-2  justify-between p-2  shadow-md bg-gray-100  border-2 rounded-md active:border-black">
                 {/* Ride Info */}
@@ -60,37 +62,13 @@ const VehiclePanel = (props) => {
 
                 {/* Price */}
                 <div className="text-right">
-                    <h2 className="text-2xl font-semibold text-black">₹65.17</h2>
+                    <h2 className="text-2xl font-semibold text-black">₹{props.fare.motorcycle}</h2>
                 </div>
             </div>
 
-            {/*Premier */}
 
 
 
-            <div
-                onClick={() => {
-                    props.setconfirmRidePanel(true);
-                }}
-                className="flex w-full items-center mb-2  justify-between   shadow-md bg-gray-100  border-2 rounded-md active:border-black">
-                {/* Ride Info */}
-
-                <div className="flex items-center">
-                    <img className="h-14 mr-3 rounded-full" src="/images/imagespremiumuber.png" alt="UberGo" />
-                    <div className="ml-2">
-                        <h4 className="font-medium text-lg">
-                            Premier <span className="text-sm ml-2"><i className="ri-user-3-fill"></i> 4</span>
-                        </h4>
-                        <p className="text-black text-sm font-semibold">12 mins away</p>
-                        <p className="text-sm text-gray-500">Comfortable sedans, top-quality drivers</p>
-                    </div>
-                </div>
-
-                {/* Price */}
-                <div className="text-right">
-                    <h2 className="p-2 text-2xl font-semibold text-black">₹250.8</h2>
-                </div>
-            </div>
 
             {/*Auto*/}
 
@@ -98,6 +76,7 @@ const VehiclePanel = (props) => {
             <div
                 onClick={() => {
                     props.setconfirmRidePanel(true);
+                    props.setVehicleType('auto')
                 }}
                 className="flex w-full items-center mb-2  justify-between p-2  shadow-md bg-gray-100  border-2 rounded-md active:border-black">
                 {/* Ride Info */}
@@ -115,7 +94,7 @@ const VehiclePanel = (props) => {
 
                 {/* Price */}
                 <div className="text-right">
-                    <h2 className="text-2xl font-semibold text-black">₹118.21</h2>
+                    <h2 className="text-2xl font-semibold text-black">₹{props.fare.auto}</h2>
                 </div>
             </div>
         </div>

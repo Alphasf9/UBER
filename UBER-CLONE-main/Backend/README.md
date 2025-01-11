@@ -642,6 +642,218 @@ Logs out the captain by clearing the authentication token and blacklisting it.
   }
   ```
 
+---
+
+## 5. Ride Endpoints
+
+### Create Ride
+#### Endpoint
+`POST /rides/create`
+
+#### Description
+Create a new ride request by specifying pickup and destination details.
+
+#### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+#### Request Body
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Park Ave",
+  "vehicleType": "car"
+}
+```
+
+#### Responses
+##### Success
+- **Status Code**: `201 Created`
+- **Response Body**:
+  ```json
+  {
+    "ride": {
+      "_id": "<ride_id>",
+      "pickup": "123 Main St",
+      "destination": "456 Park Ave",
+      "fare": 15.0,
+      "status": "pending"
+    },
+    "message": "Ride created successfully"
+  }
+  ```
+
+##### Error
+1. **Validation Error**:
+   - **Status Code**: `400 Bad Request`
+   - **Response Body**:
+     ```json
+     {
+       "errors": [
+         {
+           "msg": "pickup must be a string with a minimum length of 3 characters",
+           "param": "pickup",
+           "location": "body"
+         }
+       ],
+       "success": false
+     }
+     ```
+
+2. **Unauthorized**:
+   - **Status Code**: `401 Unauthorized`
+   - **Response Body**:
+     ```json
+     {
+       "message": "Unauthorized"
+     }
+     ```
+
+---
+
+### Get Fare
+#### Endpoint
+`GET /rides/fare`
+
+#### Description
+Get the estimated fare for a ride based on pickup and destination locations.
+
+#### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+#### Request Query
+- `pickup`: String
+- `destination`: String
+
+#### Responses
+##### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+  ```json
+  {
+    "fare": 15.0,
+    "duration": 25,
+    "distance": 10
+  }
+  ```
+
+##### Error
+- **Status Code**: `401 Unauthorized`
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+---
+
+## 6. Maps Endpoints
+
+### Get Coordinates
+#### Endpoint
+`GET /maps/get-coordinates`
+
+#### Description
+Retrieve geographic coordinates based on an address.
+
+#### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+#### Request Query
+- `address`: String
+
+#### Responses
+##### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+  ```json
+  {
+    "coordinates": {
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    }
+  }
+  ```
+
+##### Error
+- **Status Code**: `401 Unauthorized`
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+---
+
+### Get Distance and Time
+#### Endpoint
+`GET /maps/get-distance-time`
+
+#### Description
+Calculate the estimated time and distance between two locations.
+
+#### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+#### Request Query
+- `origin`: String
+- `destination`: String
+
+#### Responses
+##### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+  ```json
+  {
+    "duration": 25,
+    "distance": 10
+  }
+  ```
+
+##### Error
+- **Status Code**: `401 Unauthorized`
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+---
+
+### Get Suggestions
+#### Endpoint
+`GET /maps/get-suggestions`
+
+#### Description
+Retrieve address suggestions based on input.
+
+#### Request Headers
+- `Authorization`: `Bearer <JWT_TOKEN>`
+
+#### Request Query
+- `input`: String
+
+#### Responses
+##### Success
+- **Status Code**: `200 OK`
+- **Response Body**:
+  ```json
+  {
+    "suggestions": [
+      "123 Main St",
+      "124 Main St"
+    ]
+  }
+  ```
+
+##### Error
+- **Status Code**: `401 Unauthorized`
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+---
 
 
 
